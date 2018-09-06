@@ -5,6 +5,7 @@ import type { Router, RouteContext } from '../routes'
 import { render, html } from 'lit-html'
 
 import { fetchAll } from '../narratives/data'
+import { NarrativeStore } from '../narratives/store';
 
 type IndexProps = {
   narrative: Narrative,
@@ -83,9 +84,11 @@ const index = (props: IndexProps) => html`
 
 export default async (_: any, ctx: RouteContext) => {
   const data = await fetchAll()
-  const store: { data: Narrative[] } = {
-    data
-  }
+  // const store: { data: Narrative[] } = {
+  //   data
+  // }
+
+  const store = new NarrativeStore(data);
   const routeId: number = parseInt(ctx.params.id, 10)
   const narrative = store.data.find(n => n.id === routeId)
   if (narrative) {
